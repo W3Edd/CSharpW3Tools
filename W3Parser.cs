@@ -1,18 +1,28 @@
 namespace W3Tools {
+	using System;
 	using System.Collections.Generic;
 
 	public class W3Parser {
 		private Dictionary<string, string[]> _variables = new Dictionary<string, string[]>();
 		private string Path { get; set; }
+		public char LeftLimiter { get; set; }
+		public char RightLimiter { get; set; }
 
-		public W3Parser() { }
+		public W3Parser() {
+			this.LeftLimiter = '[';
+			this.RightLimiter = ']';
+		}
 
 		public W3Parser(string path) {
 			this.Path = path;
+			this.LeftLimiter = '[';
+			this.RightLimiter = ']';
+			this.Load();
 		}
 
 		public W3Parser(File file) {
 			this.Path = file.Path;
+			this.Load();
 		}
 
 		public void Load() {
@@ -23,8 +33,8 @@ namespace W3Tools {
 					int beginning, ending;
 					if (setting.Contains(" ")) {
 						varName = setting.Split(" ")[0];
-						beginning = setting.IndexOf("[") + 1;
-						ending = setting.IndexOf("]");
+						beginning = setting.IndexOf(LeftLimiter) + 1;
+						ending = setting.IndexOf(RightLimiter);
 
 						configs = setting.Substring(beginning, ending - beginning).Split(",");
 						string[] varResults = new string[configs.Length];
@@ -38,6 +48,17 @@ namespace W3Tools {
 					}
 				}
 			}
+		}
+
+		public void Write(string variableName, string value, bool append = true) {
+			if (variableName == null) throw new ArgumentNullException(nameof(variableName));
+			if (value == null) throw new ArgumentNullException(nameof(value));
+			if (this.Path == null) return;
+			File configFile = new File(this.Path);
+			if (configFile.IsEmpty()) {
+				configFile.WriteLine("");
+			}
+			configFile.Write($"{variableName} => [\"{value}\"];");
 		}
 
 		public string[] Get(string key) => this._variables[key];
