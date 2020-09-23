@@ -65,4 +65,8 @@ namespace W3Tools {
 
 		public string Get(string key, int index) => this._variables[key][index];
 	}
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 822bf96928364a11062bebd5a1a64e90adc501a0
