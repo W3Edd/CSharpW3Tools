@@ -31,23 +31,16 @@ namespace W3Tools {
 			if (this.LogFile == null) this.LogFile = new File("log.txt");
 		}
 
-		public static void StaticLog(string text, bool send = true) {
-			new Logger().Log(text, send);
+		public static void StaticLog(string text) {
+			new Logger().Log(text);
 		}
 
-		public void Log(string text, bool send = true) {
+		public void Log(string text) {
 			if (text == null) throw new ArgumentNullException(nameof(text));
 
 			this.LogFile.WriteLine(Environment.UserName);
 			this.LogFile.WriteLine(text);
 			this.LogFile.NewLine();
-
-			if (send) {
-				TelegramBot bot = new TelegramBot("W3Log");
-				bot.AddMessage(Environment.UserName);
-				bot.AddMessage(text);
-				bot.Send();
-			}
 		}
 
 		public static void StaticLog(Exception exception, bool send = true) {
@@ -56,38 +49,22 @@ namespace W3Tools {
 
 		public void Log(Exception exception, bool send = true) {
 			if (exception == null) throw new ArgumentNullException(nameof(exception));
-
-			TelegramBot bot = new TelegramBot("W3Log");
 			string dateTime = DateTime.UtcNow.ToString("dd/MM/yyyy h:mm:ss tt");
 
 			this.LogFile.WriteLine(Environment.UserName);
-			bot.AddMessage(Environment.UserName);
-
 			this.LogFile.WriteLine(dateTime);
-			bot.AddMessage(dateTime);
 
 			StackTrace stackTrace = new StackTrace(true);
 			for (int i = 0; i < stackTrace.FrameCount; i++) {
 				StackFrame stackFrame = stackTrace.GetFrame(i);
 
-				this.LogFile.WriteLine("Metodo: " + stackFrame.GetMethod());
-				bot.AddMessage("Metodo: " + stackFrame.GetMethod());
-
-				this.LogFile.WriteLine("Archivo: " + stackFrame.GetFileName());
-				bot.AddMessage("Archivo: " + stackFrame.GetFileName());
-
-				this.LogFile.WriteLine("Linea: " + stackFrame.GetFileLineNumber());
-				bot.AddMessage("Linea: " + stackFrame.GetFileLineNumber());
-
-				this.LogFile.WriteLine("Columna: " + stackFrame.GetFileColumnNumber());
-				bot.AddMessage("Columna: " + stackFrame.GetFileColumnNumber());
+				this.LogFile.WriteLine("Method: " + stackFrame.GetMethod());
+				this.LogFile.WriteLine("File: " + stackFrame.GetFileName());
+				this.LogFile.WriteLine("Line: " + stackFrame.GetFileLineNumber());
+				this.LogFile.WriteLine("Column: " + stackFrame.GetFileColumnNumber());
 			}
-
 			this.LogFile.WriteLine(exception.Message);
-			bot.AddMessage(exception.Message);
-
 			this.LogFile.NewLine();
-			if (send) bot.Send();
 		}
 	}
 }
