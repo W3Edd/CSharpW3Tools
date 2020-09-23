@@ -55,6 +55,9 @@ namespace W3Tools {
 			if (value == null) throw new ArgumentNullException(nameof(value));
 			if (this.Path == null) return;
 			File configFile = new File(this.Path);
+			if (!configFile.Exists()) {
+				configFile.Create();
+			}
 			if (configFile.IsEmpty()) {
 				configFile.WriteLine("");
 			}
