@@ -1,9 +1,0 @@
-bin/
-obj/
-/packages/
-riderModule.iml
-/_ReSharper.Caches/
-.gitignore
-.idea
-W3Tools.csproj
-W3Tools.sln
