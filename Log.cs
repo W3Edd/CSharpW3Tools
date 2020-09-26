@@ -58,10 +58,12 @@ namespace W3Tools {
 			for (int i = 0; i < stackTrace.FrameCount; i++) {
 				StackFrame stackFrame = stackTrace.GetFrame(i);
 
-				this.LogFile.WriteLine("Method: " + stackFrame.GetMethod());
-				this.LogFile.WriteLine("File: " + stackFrame.GetFileName());
-				this.LogFile.WriteLine("Line: " + stackFrame.GetFileLineNumber());
-				this.LogFile.WriteLine("Column: " + stackFrame.GetFileColumnNumber());
+				if (i == stackTrace.FrameCount - 1) {
+					this.LogFile.WriteLine("Method: " + stackFrame.GetMethod());
+					this.LogFile.WriteLine("File: " + stackFrame.GetFileName());
+					this.LogFile.WriteLine("Line: " + stackFrame.GetFileLineNumber());
+					this.LogFile.WriteLine("Column: " + stackFrame.GetFileColumnNumber());
+				}
 			}
 			this.LogFile.WriteLine(exception.Message);
 			this.LogFile.NewLine();
