@@ -1,4 +1,6 @@
 namespace W3Tools {
+	using System;
+
 	public abstract class Util {
 		public static string[] Explode(string line, char divisor) {
 			return line.Split(divisor);
@@ -9,6 +11,21 @@ namespace W3Tools {
 			foreach (char character in original) {
 				if (!character.Equals(toRemove)) {
 					final += character;
+				}
+			}
+			return final;
+		}
+
+		public static string RemoveFirstChar(string original, char toRemove) {
+			string final = "";
+			bool removed = false;
+			foreach (char character in original) {
+				if (!character.Equals(toRemove)) {
+					final += character;
+					removed = true;
+				}
+				if (removed) {
+					break;
 				}
 			}
 			return final;
@@ -36,7 +53,8 @@ namespace W3Tools {
 
 			while (removed) {
 				if (original.Contains(toRemove)) {
-					result = original.Remove(original.IndexOf(toRemove), toRemove.Length);
+					result = original.Remove(original.IndexOf(toRemove, StringComparison.Ordinal),
+						toRemove.Length);
 				}
 				if (result != original) {
 					original = result;

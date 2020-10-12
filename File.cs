@@ -24,7 +24,7 @@ namespace W3Tools {
 		}
 
 		public bool Create() {
-			return File.Create(this.Path);
+			return Create(this.Path);
 		}
 
 		public static bool Create(string path) {
@@ -147,15 +147,10 @@ namespace W3Tools {
 			bool wrote = false;
 			if (this.Path != null)
 				try {
-					if (!this.Exists()) {
-						this.Create();
-					}
-					using (FileStream stream = System.IO.File.Open(this.Path, FileMode.Append)) {
-						StreamWriter writer = new StreamWriter(stream);
-						writer.Write(line);
-						writer.Close();
-						wrote = true;
-					}
+					StreamWriter writer = new StreamWriter(this.Path, append);
+					writer.Write(line);
+					writer.Close();
+					wrote = true;
 				}
 				catch (Exception e) {
 					P.Err(e);
@@ -167,15 +162,10 @@ namespace W3Tools {
 			bool wrote = false;
 			if (this.Path != null)
 				try {
-					if (!this.Exists()) {
-						this.Create();
-					}
-					using (FileStream stream = System.IO.File.Open(this.Path, FileMode.Append)) {
-						StreamWriter writer = new StreamWriter(stream);
-						writer.WriteLine(line);
-						writer.Close();
-						wrote = true;
-					}
+					StreamWriter writer = new StreamWriter(this.Path, append);
+					writer.WriteLine(line);
+					writer.Close();
+					wrote = true;
 				}
 				catch (Exception exception) {
 					P.Err(exception);
@@ -187,15 +177,10 @@ namespace W3Tools {
 			bool inserted = false;
 			if (this.Path != null)
 				try {
-					if (!this.Exists()) {
-						this.Create();
-					}
-					using (FileStream stream = System.IO.File.Open(this.Path, FileMode.Append)) {
-						StreamWriter writer = new StreamWriter(stream);
-						writer.WriteLine();
-						writer.Close();
-						inserted = true;
-					}
+					StreamWriter writer = new StreamWriter(this.Path, true);
+					writer.WriteLine();
+					writer.Close();
+					inserted = true;
 				}
 				catch (Exception exception) {
 					P.Err(exception);
