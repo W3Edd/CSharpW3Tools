@@ -9,12 +9,12 @@ namespace W3Tools {
 			this.InitialSetup();
 		}
 
-		public Logger(File destine, bool keepLastSession) {
+		public Logger(File destine, bool keepLastSession = true) {
 			this.LogFile = destine;
 			this.InitialSetup(keepLastSession);
 		}
 
-		public Logger(string path, bool keepLastSession) {
+		public Logger(string path, bool keepLastSession = true) {
 			this.LogFile = new File(path);
 			this.InitialSetup(keepLastSession);
 		}
